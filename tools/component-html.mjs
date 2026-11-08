@@ -9,7 +9,7 @@ export function componentHtml(client, component) {
       if (variable?.displayName === 'workbench_origin' && parts?.length === 1 && parts[0].kind === 'literal') {
         const value = parts[0].value;
         const origin = new URL(value);
-        if (origin.protocol === 'https:' && origin.origin === value) return value;
+        if (origin.protocol === 'https:' && [origin.origin, origin.origin+'/workbench'].includes(value)) return value;
       }
     }
     throw Error('Unrecognized HTML binding on ' + component.id);

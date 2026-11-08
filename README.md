@@ -2,7 +2,9 @@
 
 [正式首页](https://9p307r8l8grk7.villa.functorz-app.com/) · [提交文字设计任务](https://9p307r8l8grk7.villa.functorz-app.com/ops-records) · [体验三维空间造型室](https://9p307r8l8grk7.cave.functorz-app.com/workbench/index.html)
 
-评审可以使用自己的 Duit 账号，在「项目运行记录」页提交一项房间设计需求、查看 Agent 的处理记录和文字方案，并由本人确认交付。已有的「橡木与鼠尾草客厅」支持访客进入三维工作台、移动人物和导出 GLB 模型。首页的房间效果图生成需要项目有可用的 Zion AI 积分。2026 年 11 月 8 日核验时，文字设计任务和三维漫游、模型导出均已完成端到端验证；生图服务当时返回项目积分不足。
+评审可以使用自己的 Duit 账号，在「项目运行记录」页提交一项房间设计需求、查看 Agent 的处理记录和文字方案，并由本人确认交付。已有的「橡木与鼠尾草客厅」支持访客进入三维工作台、移动人物和导出 GLB 模型。
+
+房间设计页提供两种图像。「生成房间图」请求云端模型制作效果图，需要项目具备可用的 Zion AI 积分。项目配额不足或服务失败时，页面可以按这次要求绘制空间示意图，并明确标记图像类型。「生成空间示意图」也可以直接使用，在浏览器中按输入的家具、材质和光线等要求绘制，可下载 PNG，无需云端积分。两种呈现的实现可在[房间页面源码](src/components/i9aaghsoe/document.html)中核验。
 
 ## 开源范围
 
@@ -18,7 +20,7 @@ Duit 是一个在 Zion 上制作的桌面 Web 应用。访客可从首页进入�
 
 ```sh
 git log --oneline --decorate --all
-git show --stat submission-journal-fix-20261108
+git show --stat submission-image-fix-20261108
 node tools/verify.mjs
 node tools/serve.mjs
 ```

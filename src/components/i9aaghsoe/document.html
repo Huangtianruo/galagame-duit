@@ -5,7 +5,7 @@
 <title>房间灵感室 · galagame</title>
 <style>
 *{box-sizing:border-box}body{margin:0;color:#232832;background:#f6f7fa;font:16px/1.55 "Microsoft YaHei",system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:30px 20px}h1{font-size:38px;margin:0 0 24px}h2{font-size:22px;margin:0 0 18px}p{margin:0}section{display:grid;grid-template-columns:minmax(270px,2fr) minmax(320px,3fr);gap:22px}form,article{background:white;border:1px solid #dde1e9;border-radius:18px;padding:26px;min-width:0}label{display:block;margin:16px 0 6px;font-weight:600}input,textarea,button{font:inherit}input,textarea{display:block;width:100%;border:1px solid #aeb6c5;border-radius:9px;padding:12px;color:inherit}input:focus,textarea:focus{outline:2px solid #5263b0;outline-offset:1px}textarea{resize:vertical;min-height:130px}button{width:100%;margin:20px 0 0;padding:12px;border:0;border-radius:9px;background:#354897;color:white;font-weight:650;cursor:pointer}button:disabled{opacity:.66;cursor:wait}#status{margin:0 0 14px;color:#4b5364;min-height:25px}figure{margin:0;background:#f1f3f8;border-radius:12px;min-height:310px;display:grid;place-items:center;text-align:center;overflow:hidden}figure p{color:#667083;padding:22px}img{display:block;max-width:100%;width:100%;height:auto;max-height:445px;object-fit:contain}a{display:inline-block;margin-top:11px;color:#304794}[hidden]{display:none!important}.embedded{background:transparent}.embedded main{padding:1px}.embedded h1{display:none}
-#toStudio{display:inline-flex;width:auto;align-items:center;margin:12px 12px 0 0;background:#284f3c;color:#fff;border-radius:8px;padding:8px 15px;font-weight:600;font-size:14px;cursor:pointer}#toStudio[hidden]{display:none}</style>
+#toStudio{display:inline-flex;width:auto;align-items:center;margin:12px 12px 0 0;background:#284f3c;color:#fff;border-radius:8px;padding:8px 15px;font-weight:600;font-size:14px;cursor:pointer}#toStudio[hidden]{display:none}#sketch{background:white;color:#304d3c;border:1px solid #739581;margin-top:8px}#downloadSketch{color:#284f3c}</style>
 <main>
 <h1>设计你的小家</h1>
 <section>
@@ -14,12 +14,83 @@
 <label for="room">房间名字</label><input id="room" placeholder="例如：松窗书房" required maxlength="120">
 <label for="brief">房间要求</label><textarea id="brief" placeholder="描述房间的用途、颜色、家具或光线" required maxlength="4000"></textarea>
 <button id="send" type="submit">生成房间图</button>
+<button id="sketch" type="button">生成空间示意图</button>
 </form>
 <article><h2>房间预览</h2><p id="status" role="status" aria-live="polite">填写房间名字和要求后，点击生成。</p>
 <figure><p id="empty">房间图将显示在这里</p><img id="picture" alt="" hidden></figure>
-<button id="toStudio" type="button" hidden>用这张图建 3D 房间 ↗</button><a id="original" hidden target="_blank" rel="noopener noreferrer">查看原图</a></article>
+<button id="toStudio" type="button" hidden>用这张图建 3D 房间 ↗</button><a id="original" hidden target="_blank" rel="noopener noreferrer">查看原图</a><a id="downloadSketch" hidden download>下载空间示意图 PNG</a></article>
 </section>
 </main>
+<script>
+/* Duit: local room illustration, independent of cloud photography and AI quota. */
+window.duitRoomPreviewFallback = function(roomName, brief) {
+  const label=String(roomName||'我的小屋').trim(),spec=String(brief||'').trim(),text=label+' '+spec;
+  const cv=document.createElement('canvas');cv.width=1536;cv.height=1024;
+  const g=cv.getContext('2d'),has=r=>r.test(text);
+  let h=2166136261;for(const ch of text)h=Math.imul(h^ch.codePointAt(0),16777619)>>>0;
+  const seed=h;const rnd=()=>((h=(Math.imul(h,1664525)+1013904223)>>>0)/4294967296);
+  const palettes=[['#c59968','#ece1d2','#677f67'],['#a97560','#eddacb','#bb806b'],['#b19e82','#e3e7db','#658883'],['#b5a189','#e6dcd2','#9292aa']];
+  let [wood,wall,cloth]=palettes[seed%palettes.length];
+  if(has(/橡木|浅木|北欧|原木|oak|scandinav/i))wood='#cba978';
+  if(has(/胡桃|深木|复古|walnut/i))wood='#905e49';
+  if(has(/石墙|混凝土|水泥|工业|concrete|stone/i))wall='#c0c0ba';
+  if(has(/暗|黑色|炭灰|dark/i))wall='#80878a';
+  if(has(/绿|草|森林|green|sage|fern/i))cloth='#517a63';
+  if(has(/粉|少女|pink|rose/i))cloth='#c98498';
+  if(has(/蓝|海洋|blue|navy/i))cloth='#51849d';
+  if(has(/紫|purple|violet/i))cloth='#9181b1';
+  if(has(/橙|砖红|terracotta|orange/i))cloth='#c87652';
+  const tint=(c,k)=>'#'+[1,3,5].map(i=>{const v=parseInt(c.slice(i,i+2),16);return Math.round(Math.max(0,Math.min(255,k<0?v*(1+k):v+(255-v)*k))).toString(16).padStart(2,'0')}).join('');
+  const X=7,Y=5.7,Z=2.85,sc=97;
+  const xy=(x,y,z=0)=>[738+(x-y)*sc,347+(x+y)*41-z*96];
+  function poly(a,color,stroke){g.beginPath();a.forEach(([x,y],i)=>i?g.lineTo(x,y):g.moveTo(x,y));g.closePath();g.fillStyle=color;g.fill();if(stroke){g.lineWidth=1.3;g.strokeStyle=stroke;g.stroke()}}
+  const face=(a,c,s)=>poly(a.map(p=>xy(...p)),c,s);
+  function seg(a,b,c,width=1){g.beginPath();g.moveTo(...xy(...a));g.lineTo(...xy(...b));g.strokeStyle=c;g.lineWidth=width;g.stroke()}
+  function block(x,y,z,w,d,ht,c){const e=tint(c,-.19);
+    face([[x,y+d,z],[x+w,y+d,z],[x+w,y+d,z+ht],[x,y+d,z+ht]],tint(c,-.10),e);
+    face([[x+w,y,z],[x+w,y+d,z],[x+w,y+d,z+ht],[x+w,y,z+ht]],tint(c,-.23),e);
+    face([[x,y,z+ht],[x+w,y,z+ht],[x+w,y+d,z+ht],[x,y+d,z+ht]],tint(c,.16),e)}
+  const dusk=has(/夜|落日|黄昏|night|sunset/i);
+  const bg=g.createLinearGradient(0,0,0,1024);bg.addColorStop(0,dusk?'#ece6dd':'#fffaf1');bg.addColorStop(1,'#f0eade');g.fillStyle=bg;g.fillRect(0,0,1536,1024);
+  g.save();g.shadowColor='#6f5d4755';g.shadowBlur=32;g.shadowOffsetY=15;face([[0,0,-.10],[X,0,-.10],[X,Y,-.10],[0,Y,-.10]],'#c6b5a1');g.restore();
+  block(0,0,-.16,X,Y,.16,wood);
+  for(let y=.37;y<Y;y+=.37)seg([0,y,.003],[X,y,.003],tint(wood,-.10),1.5);
+  for(let i=0;i<15;i++)for(let x=(i%3)*.55+.12;x<X;x+=1.75)seg([x,i*.37,.005],[x,Math.min(Y,(i+1)*.37),.005],tint(wood,-.14),1.2);
+  face([[0,0,0],[X,0,0],[X,0,Z],[0,0,Z]],tint(wall,.22),tint(wall,-.21));
+  face([[0,0,0],[0,Y,0],[0,Y,Z],[0,0,Z]],tint(wall,-.06),tint(wall,-.21));
+  function pane(x,z,w,ht,c){face([[x,0,z],[x+w,0,z],[x+w,0,z+ht],[x,0,z+ht]],c)}
+  const winWidth=has(/大窗|落地窗|large window/i)?3.8:2.7;
+  pane(.55,.78,winWidth+.18,1.76,wood);pane(.64,.88,winWidth,1.52,dusk?'#d9b0a6':'#c9dfd8');
+  for(let i=0;i<13;i++){const x=.70+i*(winWidth-.23)/13,hi=.25+rnd()*.42;face([[x,0,.9],[x+.20,0,.9],[x+.10,0,.90+hi]],i%2?'#94b3a1':'#aec6aa')}
+  pane(.65+winWidth/2,.87,.045,1.53,'#f9efd9');pane(.64,1.62,winWidth,.04,'#f9efd9');
+  block(.56,.01,.75,winWidth+.18,.15,.07,tint(wood,.1));
+  // Left-wall artwork; all geometry is generated from the user's brief.
+  const art=(y,z,w,ht,c)=>face([[.015,y,z],[.015,y+w,z],[.015,y+w,z+ht],[.015,y,z+ht]],c);
+  art(2.1,1.1,1.14,1.19,wood);art(2.15,1.16,1.04,1.07,'#f5eedc');art(2.36,1.30,.33,.65,cloth);art(2.67,1.29,.3,.35,'#d59a6f');
+  const rug=has(/地毯|客厅|卧室|游戏|rug|bed|living/i)||!has(/工作室|陶艺/);
+  if(rug){face([[2.1,2.15,.012],[5.94,2.15,.012],[5.94,4.72,.012],[2.1,4.72,.012]],tint(cloth,.49),tint(cloth,.32));
+    for(let y=2.28;y<4.7;y+=.19)seg([2.21,y,.018],[5.83,y,.018],tint(cloth,.59),1.5);}
+  const items=[];function object(x,y,fn,order=x+y){items.push({order,fn})}
+  function desk(x,y,w,d){object(x,y,()=>{for(const a of [.09,w-.17])for(const b of [.08,d-.16])block(x+a,y+b,0,.08,.08,.77,tint(wood,-.23));block(x,y,.76,w,d,.11,wood);
+    if(has(/电脑|游戏|电竞|屏幕|computer|gaming|monitor/i)){block(x+w*.50,y+.1,.87,.95,.09,.57,'#394b52');block(x+w*.54,y+.20,.91,.72,.3,.03,'#667d85')}
+    else {block(x+w*.45,y+.18,.88,.59,.39,.04,'#efdfc3');block(x+w*.49,y+.22,.93,.44,.25,.04,cloth)}},x+y+.30)}
+  function seat(x,y,w=.67,d=.71){object(x,y,()=>{for(const a of [.08,w-.13])for(const b of [.08,d-.13])block(x+a,y+b,0,.06,.06,.36,tint(wood,-.30));block(x,y,.34,w,d,.16,cloth);block(x,y+d-.12,.48,w,.12,.53,cloth)},x+y+.4)}
+  function plant(x,y,sz){object(x,y,()=>{block(x,y,0,sz*.56,sz*.53,sz*.56,'#b87a5f');const p=xy(x+sz*.28,y+sz*.26,sz*.54);for(let i=0;i<16;i++){const rad=(-172+i*10)*Math.PI/180,len=(40+rnd()*44)*sz;const xx=p[0]+Math.cos(rad)*len,yy=p[1]+Math.sin(rad)*len;
+    g.beginPath();g.moveTo(...p);g.quadraticCurveTo((p[0]+xx)/2+9,yy-8,xx,yy);g.quadraticCurveTo((p[0]+xx)/2-7,p[1]-8,...p);g.fillStyle=['#4c7057','#789071','#849e7b'][i%3];g.fill();}},x+y+.54)}
+  if(has(/架|书|收藏|工作室|陶|shelf|book|studio/i)){object(.25,.9,()=>{const x=.22,y=.85;for(const oy of [0,1.13])block(x,y+oy,0,.36,.08,1.6,wood);
+    for(let k=0;k<4;k++){block(x,y,k*.48,.39,1.22,.07,wood);if(k<3)for(let j=0;j<5;j++)block(x+.09,y+.10+j*.18,k*.48+.07,.22,.12,.22+rnd()*.11,[cloth,'#d3aa7c','#c6c5ab','#a87b65'][j%4])}},1.6)}
+  if(has(/卧室|床|睡眠|bedroom|bed\b/i)){object(1.05,2.1,()=>{block(.85,2.03,0,2.15,2.6,.30,wood);block(.87,2.05,.3,2.1,2.52,.23,'#efe5d4');block(.86,2.92,.52,2.12,1.6,.11,cloth);block(1.07,2.18,.53,.74,.45,.12,'#fff2de');block(1.96,2.18,.53,.74,.45,.12,'#fff2de')});desk(4.65,.70,1.66,.8);seat(5.2,1.74)}
+  else if(has(/沙发|客厅|会客|sofa|living/i)){object(.85,2.23,()=>{block(.70,2.27,0,1.22,2.24,.41,cloth);block(.68,2.23,.37,.25,2.32,.64,cloth);for(const y of [2.32,3.40])block(.98,y,.41,.8,.97,.17,tint(cloth,.13));for(const y of [2.22,4.29])block(.75,y,.36,1.13,.22,.4,cloth)});
+    object(2.65,2.8,()=>{block(3.10,3.02,0,.70,.51,.32,wood);block(2.85,2.82,.32,1.3,.93,.10,wood)});seat(4.94,2.07,.86,.86)}
+  else {const wide=has(/双|两人|two|double|共同|共读/i),studio=has(/陶|美术|工作室|atelier|studio/i),x=studio?2.13:1.85,y=studio?1.9:.86;desk(x,y,wide||studio?3.12:2.49,studio?1.26:.96);seat(x+.35,y+(studio?1.55:1.22));if(wide||studio)seat(x+1.78,y+(studio?1.55:1.22))}
+  if(has(/植物|绿植|蕨|竹|花|plant|fern|bamboo/i)){plant(5.86,.47,1.08);plant(.38,4.54,.74)}else plant(5.96,.56,.83);
+  items.sort((a,b)=>a.order-b.order).forEach(it=>it.fn());
+  g.fillStyle='#514737';g.font='600 30px "Microsoft YaHei", sans-serif';g.fillText(label.slice(0,32),95,926,1060);
+  g.fillStyle='#807465';g.font='20px "Microsoft YaHei", sans-serif';g.fillText('Duit 小家  /  空间示意图',95,968);g.textAlign='right';g.fillText('DESIGN STUDY    '+seed.toString(16).slice(-5).toUpperCase(),1430,965);
+  return cv.toDataURL('image/png');
+};
+
+</script>
 <script>
 (() => {
   if (self !== top) document.body.classList.add('embedded');
@@ -38,11 +109,55 @@
       if (!base) return null;
       try {
         const target = new URL(base);
-        if (target.protocol !== 'https:' || target.username || target.password || target.origin !== base) return null;
-        return new URL("/index.html?v=member1", target);
+        if (target.protocol !== 'https:' || target.username || target.password || ![target.origin, target.origin + "/workbench"].includes(base)) return null;
+        return new URL("index.html?v=member1", base + "/");
       } catch { return null; }
     })();if(!u){status.textContent='工作台网址尚未配置，请从网站内打开。';return}studioOrigin=u.origin;u.searchParams.set('pageId','achc398jc');u.searchParams.set('breakpoint','desktop');u.searchParams.set('roomTask',finished.id);u.searchParams.set('roomName',finished.name);studioWindow=window.open(u.href,'_blank');if(!studioWindow)status.textContent='请允许打开新标签页，再点击建模。';};
   window.addEventListener('message',event=>{if(event.origin!==studioOrigin||event.data?.type!=='duit-studio-ready'||!studioWindow||!finished||!event.source)return;try{if(event.source.top!==studioWindow)return;event.source.postMessage({type:'duit-room-reference',id:finished.id,name:finished.name},studioOrigin)}catch{}});
+  const sketch = el('sketch'), download = el('downloadSketch');
+  let downloadURL = null;
+  function clearSketch() {
+    if (downloadURL) URL.revokeObjectURL(downloadURL);
+    downloadURL = null;
+    download.hidden = true;
+    download.removeAttribute('href');
+  }
+  function checkedInputs() {
+    if (!room.value.trim()) {status.textContent='请先填写房间名字。';room.focus();return false;}
+    if (!brief.value.trim()) {status.textContent='请先填写房间要求。';brief.focus();return false;}
+    return true;
+  }
+  async function displaySketch(afterCloud) {
+    clearSketch();
+    finished = null;
+    el('toStudio').hidden = true;
+    original.hidden = true;
+    original.removeAttribute('href');
+    const name = room.value.trim(), description = brief.value.trim();
+    const data = await window.duitRoomPreviewFallback(name, description);
+    if (typeof data !== 'string' || !data.startsWith('data:image/png;base64,')) throw Error('暂时无法绘制空间示意图。');
+    picture.src = data;
+    await picture.decode();
+    const raw = atob(data.slice(data.indexOf(',')+1));
+    const bytes = Uint8Array.from(raw, char => char.charCodeAt(0));
+    downloadURL = URL.createObjectURL(new Blob([bytes], {type:'image/png'}));
+    download.href = downloadURL;
+    download.download = (name.replace(/[\\/:*?"<>|]/g,'').slice(0,70) || '我的小屋')+'-空间示意图.png';
+    download.hidden = false;
+    picture.alt = name+'的空间示意图';
+    picture.hidden = false;
+    el('empty').hidden = true;
+    status.textContent = afterCloud ? '云端效果图暂未生成，已按要求绘制空间示意图。' : '已按要求绘制空间示意图。';
+  }
+  sketch.addEventListener('click', async () => {
+    if (busy || !checkedInputs()) return;
+    busy=true; sketch.disabled=send.disabled=true;
+    try { await displaySketch(false); }
+    catch { status.textContent='暂时无法绘制空间示意图，请重新打开页面后再试。'; }
+    finally { busy=false; sketch.disabled=send.disabled=false; }
+  });
+  window.addEventListener('pagehide', clearSketch);
+
   async function graphql(query,variables) {
     const controller = new AbortController(), timer = setTimeout(() => controller.abort(),20000);
     try {
@@ -60,10 +175,10 @@
       let data;
       try { data=(await graphql(resultQuery,{id}))[result]; failures=0 }
       catch(e) {if (++failures>=3) throw e;await wait(2000);continue}
-      if (data?.status==='FAILED') {pending=null;throw Error('这次生成失败，可以调整要求后重试。')}
+      if (data?.status==='FAILED') {pending=null;return null;}
       if (data?.status==='COMPLETED') {
         const url = data.output?.url;
-        if (!url || !/^https:\/\//i.test(url)) {pending=null;throw Error('任务已结束，但没有可显示的图片。')}
+        if (!url || !/^https:\/\//i.test(url)) {pending=null;return null;}
         return url;
       }
       await wait(1800);
@@ -74,10 +189,10 @@
     event.preventDefault(); if(busy) return;
     if(!pending && !room.value.trim()){status.textContent='请先填写房间名字。';room.focus();return}
     if(!pending && !brief.value.trim()){status.textContent='请先填写房间要求。';brief.focus();return}
-    busy=true; send.disabled=true;send.textContent='正在生成，请稍候';room.readOnly=brief.readOnly=true;
+    busy=true; sketch.disabled=send.disabled=true;send.textContent='正在生成，请稍候';room.readOnly=brief.readOnly=true;
     try {
       if(!pending) {
-        finished=null;el('toStudio').hidden=true;picture.hidden=true;picture.removeAttribute('src');original.hidden=true;original.removeAttribute('href');el('empty').hidden=false;
+        clearSketch();finished=null;el('toStudio').hidden=true;picture.hidden=true;picture.removeAttribute('src');original.hidden=true;original.removeAttribute('href');el('empty').hidden=false;
         status.textContent='正在提交房间设计…';
         const name=room.value.trim();
         const prompt='请生成一张房间效果图。房间名字（仅用于识别设计，不要画成图中文字）：'+name+'\n房间要求：'+brief.value.trim()+'\n请输出单张完整房间图片，不添加文字或水印。';
@@ -87,6 +202,7 @@
       }
       status.textContent='房间图正在生成，请留在本页。';
       const url=await poll(pending.id);
+      if (!url) {await displaySketch(true);return;}
       original.href=url;original.hidden=false;
       picture.src=url;picture.alt=pending.name+'的房间设计图';
       await picture.decode();
@@ -94,7 +210,7 @@
     } catch(e) {
       status.textContent=original.hidden ? '未能显示图片。'+(e.message||'请稍后重试。') : '图片加载失败，可以查看原图，或继续查看本次结果。';
     } finally {
-      busy=false;send.disabled=false;send.textContent=pending?'继续查看':'生成房间图';
+      busy=false;sketch.disabled=send.disabled=false;send.textContent=pending?'继续查看':'生成房间图';
       room.readOnly=brief.readOnly=Boolean(pending);
     }
   });
