@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
+import {componentHtml, embeddedDocument} from './component-html.mjs';
 
 const root = fileURLToPath(new URL('../',import.meta.url));
 const read = relative => fs.readFileSync(path.join(root,relative));
@@ -32,10 +33,10 @@ for (const id of client.rootPageIds) assert.equal(client.componentById[id].type,
 const components = Object.values(client.componentById);
 for (const c of components.filter(c=>c.type === 'HTML')) {
   const dir = 'src/components/' + c.id + '/';
-  const source = c.properties.code.valueBinding.map(b=>b.value).join('');
+  const source = componentHtml(client, c);
   assert.equal(read(dir + 'component.html').toString('utf8'), source, c.displayName);
-  const frame = source.match(/src=["']data:text\/html(?:;charset=[^;,]+)?;base64,([A-Za-z0-9+/=]+)["']/i);
-  if (frame) assert.deepEqual(read(dir+'document.html'), Buffer.from(frame[1],'base64'), c.displayName);
+  const frame = embeddedDocument(source);
+  if (frame) assert.deepEqual(read(dir+'document.html'), frame, c.displayName);
 }
 for (const flow of schema.server.actionFlows) {
   for (const node of flow.allNodes) {

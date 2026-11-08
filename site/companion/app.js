@@ -21,6 +21,11 @@
   async function call(op,args={},id=room?.id,keepalive=false){if(!user)throw Error('请先登录小屋账号。');const j=await gqlReq('mutation($q:String!){'+FLOW+'(question:$q)}',{q:JSON.stringify({...args,op,id})},true,keepalive);return JSON.parse(j[FLOW])}
   function loginThen(fn){if(user)return fn();pendingAuth=fn;$('cpAuthState').textContent='';modal('cpAuth')}
   const club=setupClub({call,login:loginThen,user:()=>user,house:()=>room,show:modal});
+  const support=setupSupport({login:loginThen,getUser:()=>user,plans:club.plansOpen,
+    create:()=>guard(()=>loginThen(newAI))(),profile:()=>$('profileTop').click(),rooms:()=>$('cpBanner').scrollIntoView({block:'nearest'}),
+    async ask(question){const name='fz_af_cae5d8e3_f528_4c51_8b4c_38794c514e5f',data=await gqlReq('mutation Help($q:String!){'+name+'(question:$q)}',{q:question});
+      if(typeof data[name]!=='string'||!data[name].trim())throw Error('AI 客服暂未返回答复，请重试。');return data[name]}
+  });
   window.duitChooseMedia=next=>guard(()=>room?.hostPlan==='deluxe'?next():loginThen(async()=>{if(await club.requirePlan('deluxe'))next()}))();
   async function authenticate(register){
     const name=$('cpUser').value.trim(),pass=$('cpPass').value;if(!name||!pass)throw Error('请填写用户名和密码。');
@@ -120,7 +125,7 @@
   $('cpRooms').onclick=guard(()=>loginThen(library));$('cpSignout').onclick=guard(async()=>{await leave();user=null;sessionStorage.removeItem('duit.house.auth');$('cpLibrary').close();status('cpBannerState','已退出小屋账号。')});
   window.addEventListener('pagehide',()=>{const r=room;if(r?.kind==='human')call('presence',{leave:true,session},r.id,true).catch(()=>{});phone.end(false).catch(()=>{})});
   const options=new URLSearchParams(location.search);
-  async function launch(){if(options.get('membership')==='1')return club.plansOpen();await window.duitStudioReady;if(pendingJoin.id&&pendingJoin.key){return loginThen(async()=>{const r=await call('join',{proof:await digest(pendingJoin.key)},pendingJoin.id);const url=new URL(location.href);url.hash='';window.history.replaceState(null,'',url);await openRoom(r.id)})}
+  async function launch(){if(options.get('membership')==='1')return club.plansOpen();if(options.get('support')==='1')return support.open();await window.duitStudioReady;if(pendingJoin.id&&pendingJoin.key){return loginThen(async()=>{const r=await call('join',{proof:await digest(pendingJoin.key)},pendingJoin.id);const url=new URL(location.href);url.hash='';window.history.replaceState(null,'',url);await openRoom(r.id)})}
     if(/^\d{1,19}$/.test(options.get('openHouse')||''))return loginThen(()=>openRoom(options.get('openHouse')));
     if(options.get('companion')==='create')return loginThen(newAI)}
   guard(launch)();

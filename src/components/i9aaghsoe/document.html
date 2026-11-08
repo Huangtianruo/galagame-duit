@@ -32,9 +32,17 @@
   const submitQuery = 'mutation RoomPreview($prompt:String!){' + flow + '(image_prompt:$prompt)}';
   const resultQuery = 'query RoomImage($id:bigint!){' + result + '(taskId:$id){status output{id url}}}';
   const wait = ms => new Promise(resolve => setTimeout(resolve,ms));
-  let pending = null, busy = false, finished = null, studioWindow=null;
-  el('toStudio').onclick=()=>{if(!finished)return;const u=new URL("https://9p307r8l8grk7.cave.functorz-app.com/index.html?v=member1");u.searchParams.set('pageId','achc398jc');u.searchParams.set('breakpoint','desktop');u.searchParams.set('roomTask',finished.id);u.searchParams.set('roomName',finished.name);studioWindow=window.open(u.href,'_blank');if(!studioWindow)status.textContent='请允许打开新标签页，再点击建模。';};
-  window.addEventListener('message',event=>{if(event.data?.type!=='duit-studio-ready'||!studioWindow||!finished||!event.source)return;try{if(event.source.top!==studioWindow)return;event.source.postMessage({type:'duit-room-reference',id:finished.id,name:finished.name},'*')}catch{}});
+  let pending = null, busy = false, finished = null, studioWindow=null,studioOrigin=null;
+  el('toStudio').onclick=()=>{if(!finished)return;const u=(() => {
+      const base = new URLSearchParams(location.hash.slice(1)).get('workbench');
+      if (!base) return null;
+      try {
+        const target = new URL(base);
+        if (target.protocol !== 'https:' || target.username || target.password || target.origin !== base) return null;
+        return new URL("/index.html?v=member1", target);
+      } catch { return null; }
+    })();if(!u){status.textContent='工作台网址尚未配置，请从网站内打开。';return}studioOrigin=u.origin;u.searchParams.set('pageId','achc398jc');u.searchParams.set('breakpoint','desktop');u.searchParams.set('roomTask',finished.id);u.searchParams.set('roomName',finished.name);studioWindow=window.open(u.href,'_blank');if(!studioWindow)status.textContent='请允许打开新标签页，再点击建模。';};
+  window.addEventListener('message',event=>{if(event.origin!==studioOrigin||event.data?.type!=='duit-studio-ready'||!studioWindow||!finished||!event.source)return;try{if(event.source.top!==studioWindow)return;event.source.postMessage({type:'duit-room-reference',id:finished.id,name:finished.name},studioOrigin)}catch{}});
   async function graphql(query,variables) {
     const controller = new AbortController(), timer = setTimeout(() => controller.abort(),20000);
     try {

@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {componentHtml, embeddedDocument} from './component-html.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const appId = '8bD5JlVexgP';
@@ -38,16 +39,12 @@ const write = (relative, contents) => {
 const parts = [];
 for (const component of Object.values(app.componentById)) {
   if (component.type !== 'HTML') continue;
-  const bindings = component.properties.code?.valueBinding ?? [];
-  if (!bindings.every(b => b.kind === 'literal' && typeof b.value === 'string')) {
-    throw Error('Inspect the dynamic HTML binding on ' + component.id);
-  }
-  const html = bindings.map(b => b.value).join('');
+  const html = componentHtml(app, component);
   const dir = 'src/components/' + component.id;
   parts.push([dir + '/component.html', html]);
-  const embedded = html.match(/src=["']data:text\/html(?:;charset=[^;,]+)?;base64,([A-Za-z0-9+/=]+)["']/i);
+  const embedded = embeddedDocument(html);
   if (embedded) {
-    const document = Buffer.from(embedded[1], 'base64').toString('utf8');
+    const document = embedded.toString('utf8');
     audit(document, dir + '/document.html');
     parts.push([dir + '/document.html', document]);
   }

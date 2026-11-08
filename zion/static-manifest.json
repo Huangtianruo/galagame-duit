@@ -1,7 +1,7 @@
 {
-  "activatedAt": "2026-11-08T11:09:44.734726+08:00",
-  "exId": "ZOMQM4Kq1yy",
-  "fileCount": 31,
+  "activatedAt": "2026-11-08T11:29:56.023613+08:00",
+  "exId": "mJK9Kkjq1gV",
+  "fileCount": 33,
   "manifest": [
     {
       "md5Base64": "OapOYcGqrZFbPKV927VZ9A==",
@@ -69,9 +69,9 @@
       "sizeBytes": 424
     },
     {
-      "md5Base64": "pFJgbYn6c6en4Db5qbigZw==",
+      "md5Base64": "FddYl3gxm19End6WiRWPDA==",
       "path": "companion/app.js",
-      "sizeBytes": 21248
+      "sizeBytes": 21832
     },
     {
       "md5Base64": "zpcvO1Vgf+NFz1DHXRvclQ==",
@@ -114,14 +114,24 @@
       "sizeBytes": 7797
     },
     {
+      "md5Base64": "ANie7H7UmPpeb/hS4gUoMQ==",
+      "path": "companion/support.css",
+      "sizeBytes": 2089
+    },
+    {
+      "md5Base64": "zsJW6zaeMnuKnb7guJtTVA==",
+      "path": "companion/support.js",
+      "sizeBytes": 4485
+    },
+    {
       "md5Base64": "cNENGmsekiKEFDyhszvL4Q==",
       "path": "companion/ui.css",
       "sizeBytes": 3406
     },
     {
-      "md5Base64": "cL1UH6r2WmQS/GTmQSZ4sQ==",
+      "md5Base64": "MhehZSeZXO2XyVcquygbUw==",
       "path": "index.html",
-      "sizeBytes": 355806
+      "sizeBytes": 356834
     },
     {
       "md5Base64": "sPgZOPpC10kMHQ0Gip/+bg==",
@@ -160,5 +170,5 @@
     }
   ],
   "siteUrl": "https://9p307r8l8grk7.cave.functorz-app.com",
-  "totalBytes": 25930860
+  "totalBytes": 25939046
 }
