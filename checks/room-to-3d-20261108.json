@@ -1,0 +1,66 @@
+{
+  "timestampFormat": "ISO 8601，UTC（Z）",
+  "sketch": {
+    "verification": "隔离验收",
+    "checkedAt": "2026-11-08T06:49:54.010Z",
+    "room": "云杉阅读室",
+    "entry": "首页→开始建房→生成空间示意图→用这张图建 3D 房间→人物漫游→导出 GLB",
+    "walkModeEntered": true,
+    "changingFormKeepsGeneratedScene": true,
+    "glb": {
+      "format": "glTF 2.0 binary",
+      "filename": "云杉阅读室-三维房间.glb",
+      "bytes": 56444,
+      "meshCount": 27,
+      "sceneCount": 1,
+      "itemKinds": [
+        "window",
+        "picture",
+        "rug",
+        "shelf",
+        "desk",
+        "chair",
+        "chair",
+        "plant",
+        "plant"
+      ],
+      "sha256": "66d72be9ae69dde1b9c7f1c828f1df1a101fdbd218faf90001abf6e82595543b"
+    }
+  },
+  "cloud": {
+    "verification": "隔离浏览器，以访客身份操作已部署的配套工作台",
+    "beganAt": "2026-11-08T06:47:33.498Z",
+    "finishedAt": "2026-11-08T06:47:58.038Z",
+    "source": "青瓷工作室。团队于 2026-11-07 生成并验收的项目测试作品。",
+    "imageTaskId": "1150000000000037",
+    "imageAssetId": "1020000000000020",
+    "imageSize": [
+      1536,
+      1024
+    ],
+    "imageSha256": "b13828afdca4db49024bda9632411bb1fabcfe24be3650f4a672f6bec3f38fc5",
+    "modelTaskId": "1150000000000109",
+    "submissionCount": 1,
+    "states": [
+      "PROCESSING",
+      "COMPLETED"
+    ],
+    "initialScene": "实测示例 · 橡木与鼠尾草客厅",
+    "finalScene": "青瓷工作室",
+    "estimatedDimensionsMeters": [
+      7.2,
+      6,
+      3.2
+    ],
+    "walkableSceneSize": "10.8 × 9.0 × 3.2 m",
+    "inferredObjects": 12,
+    "walkModeEntered": true,
+    "glb": {
+      "suggested": "青瓷工作室.glb",
+      "bytes": 155832,
+      "sha256": "9afe42a2c3c4a82db53a9de543b4ff98c120c2beae7c0ca1ff4759862d606510",
+      "meshes": 70,
+      "nodes": 427
+    }
+  }
+}
