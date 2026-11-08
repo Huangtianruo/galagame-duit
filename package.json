@@ -1,0 +1,11 @@
+{
+  "name": "galagame-duit",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Duit 小家桌面 Web 应用参赛源码及 Zion 项目配置",
+  "engines": {"node": ">=18"},
+  "scripts": {
+    "verify": "node tools/verify.mjs",
+    "start": "node tools/serve.mjs"
+  }
+}

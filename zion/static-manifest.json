@@ -1,0 +1,164 @@
+{
+  "activatedAt": "2026-11-08T11:09:44.734726+08:00",
+  "exId": "ZOMQM4Kq1yy",
+  "fileCount": 31,
+  "manifest": [
+    {
+      "md5Base64": "OapOYcGqrZFbPKV927VZ9A==",
+      "path": "THREE-LICENSE.txt",
+      "sizeBytes": 1081
+    },
+    {
+      "md5Base64": "h6MOXPoS0aua2k+28/7tSw==",
+      "path": "avatar/MEDIAPIPE-LICENSE.txt",
+      "sizeBytes": 12331
+    },
+    {
+      "md5Base64": "vu+47gxriDB/uDYNL1RtDQ==",
+      "path": "avatar/face-model.txt",
+      "sizeBytes": 5011464
+    },
+    {
+      "md5Base64": "Z0IQQk7Zmbh7A3IUPJPFeg==",
+      "path": "avatar/mesh.js",
+      "sizeBytes": 10386
+    },
+    {
+      "md5Base64": "GH8mUdj77rGE1lw3ovIsyg==",
+      "path": "avatar/profile.js",
+      "sizeBytes": 11851
+    },
+    {
+      "md5Base64": "NODwvMgsPScJeyYXvQVO1g==",
+      "path": "avatar/store.js",
+      "sizeBytes": 1054
+    },
+    {
+      "md5Base64": "vgk/SD/dkmVm2eSct3RNzw==",
+      "path": "avatar/three.js",
+      "sizeBytes": 687697
+    },
+    {
+      "md5Base64": "ODfsVuHplG/28sSQEHiByg==",
+      "path": "avatar/vision.mjs",
+      "sizeBytes": 137809
+    },
+    {
+      "md5Base64": "CLew8G6PQQwm2+nzrVdtuw==",
+      "path": "avatar/wasm/vision_wasm_internal.js",
+      "sizeBytes": 204284
+    },
+    {
+      "md5Base64": "nFvc6M1xIl8lEuZgG5AEmw==",
+      "path": "avatar/wasm/vision_wasm_internal.wasm",
+      "sizeBytes": 9574032
+    },
+    {
+      "md5Base64": "ZPxXmtoahFpPjGk+fIXHMg==",
+      "path": "avatar/wasm/vision_wasm_nosimd_internal.js",
+      "sizeBytes": 204137
+    },
+    {
+      "md5Base64": "WALkyfGtTM03EJ/dIDyPEQ==",
+      "path": "avatar/wasm/vision_wasm_nosimd_internal.wasm",
+      "sizeBytes": 9448638
+    },
+    {
+      "md5Base64": "dxdn8dTvYBc4uMJ6seZKWA==",
+      "path": "companion/MP3-LICENSE.txt",
+      "sizeBytes": 424
+    },
+    {
+      "md5Base64": "pFJgbYn6c6en4Db5qbigZw==",
+      "path": "companion/app.js",
+      "sizeBytes": 21248
+    },
+    {
+      "md5Base64": "zpcvO1Vgf+NFz1DHXRvclQ==",
+      "path": "companion/media.js",
+      "sizeBytes": 6210
+    },
+    {
+      "md5Base64": "89u9EFem90C/i96msml3Bg==",
+      "path": "companion/member-ui.js",
+      "sizeBytes": 8788
+    },
+    {
+      "md5Base64": "zRMzFUByKurR5kMW9E9a0w==",
+      "path": "companion/member.css",
+      "sizeBytes": 1386
+    },
+    {
+      "md5Base64": "WmI4+EeQuCih2k8V9KtlXw==",
+      "path": "companion/mp3.js",
+      "sizeBytes": 156043
+    },
+    {
+      "md5Base64": "VMDLjy/q27rWsQDKTTSmKw==",
+      "path": "companion/phone.js",
+      "sizeBytes": 10741
+    },
+    {
+      "md5Base64": "d4jvNuitQnN+qZsAyVNppQ==",
+      "path": "companion/pool-engine.js",
+      "sizeBytes": 1921
+    },
+    {
+      "md5Base64": "O/IDAaCcp3xNuBCfseN0qQ==",
+      "path": "companion/stations.css",
+      "sizeBytes": 1580
+    },
+    {
+      "md5Base64": "23Md+ofi6jAA9mcpCZpcFQ==",
+      "path": "companion/stations.js",
+      "sizeBytes": 7797
+    },
+    {
+      "md5Base64": "cNENGmsekiKEFDyhszvL4Q==",
+      "path": "companion/ui.css",
+      "sizeBytes": 3406
+    },
+    {
+      "md5Base64": "cL1UH6r2WmQS/GTmQSZ4sQ==",
+      "path": "index.html",
+      "sizeBytes": 355806
+    },
+    {
+      "md5Base64": "sPgZOPpC10kMHQ0Gip/+bg==",
+      "path": "inspiration.html",
+      "sizeBytes": 7685
+    },
+    {
+      "md5Base64": "pBAAcjouG5sMbI0omGiSJA==",
+      "path": "journal/MD5-LICENSE.txt",
+      "sizeBytes": 486
+    },
+    {
+      "md5Base64": "QH1k/hYvcmADYiuV0HkC7A==",
+      "path": "journal/records.css",
+      "sizeBytes": 4910
+    },
+    {
+      "md5Base64": "Bjg0PozPI0TgzRfBWlOy2Q==",
+      "path": "journal/records.js",
+      "sizeBytes": 15284
+    },
+    {
+      "md5Base64": "hudbphW73S7ETw8V08ouhQ==",
+      "path": "journal/spark-md5.min.js",
+      "sizeBytes": 10166
+    },
+    {
+      "md5Base64": "Cbsp/zcOySXdMG2En1WPXQ==",
+      "path": "profile.html",
+      "sizeBytes": 8428
+    },
+    {
+      "md5Base64": "/3iyI6LCdflb8i0BBqUmNw==",
+      "path": "project-records.html",
+      "sizeBytes": 3787
+    }
+  ],
+  "siteUrl": "https://9p307r8l8grk7.cave.functorz-app.com",
+  "totalBytes": 25930860
+}

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="same-origin"><title>项目运行记录 · Duit</title><link rel="stylesheet" href="./journal/records.css?v=j1"></head>
+<body><header><a class="brand" href="./index.html" aria-label="返回小屋">duit</a><span class="crumb">项目运行记录</span><a class="back" href="./profile.html">个人中心</a><button id="identity">登录</button></header>
+<main><div class="mast"><div><h1>Agent 工作记录</h1><p>查看每次任务的分工、交接和交付结果。</p></div><button class="primary" id="compose">＋ 提交任务</button></div>
+<div class="workspace"><aside><div class="section-title"><h2>我的任务</h2><button class="link" id="refresh">刷新</button></div>
+<label class="filter">状态筛选<select id="filter"><option value="">全部状态</option></select></label>
+<div id="tasks" class="task-list"></div><button id="more" hidden>更多任务</button></aside>
+<section class="paper" id="paper"><div id="empty" class="empty"><div aria-hidden="true" class="sheet-icon">≡</div><h2 id="emptyTitle">登录查看运行记录</h2><p id="emptyHint">使用你的小屋账号，查看自己的任务和交付结果。</p><button id="emptyAction">登录小屋账号</button></div>
+<article id="detail" hidden><div class="ticket"><span id="taskNo"></span><b id="taskState"></b></div><h2 class="task-heading" id="request"></h2><p class="meta" id="taskWhen"></p>
+<div class="metrics" id="metrics"></div><section class="delivery" id="delivery" hidden><h3>交付结果</h3><p id="deliveryText"></p></section>
+<div class="section-title"><h3>执行时间线</h3><span class="meta" id="eventCount"></span></div><ol id="timeline"></ol><button id="moreEvents" hidden>加载后续事件</button>
+<section class="actions" id="actions"><p id="nextAction" class="meta"></p><label id="noteRow">处理意见<textarea id="note" rows="2" maxlength="1800" placeholder="需要补充什么，或你决定如何处理"></textarea></label>
+<div class="buttons"><button id="advance" class="primary">继续执行</button><button id="confirm" class="primary">确认交付</button><button id="redo">退回补充</button><button id="retry">重试失败步骤</button><button id="attach">上传交付图片</button><input id="file" type="file" accept="image/png,image/jpeg,image/webp" hidden></div></section></article>
+</section></div><p id="feedback" role="status" aria-live="polite"></p></main>
+<dialog id="auth"><form id="authForm"><div class="section-title"><h2>登录小屋账号</h2><button type="button" data-close>关闭</button></div><label>用户名<input id="username" autocomplete="username" maxlength="70" required></label><label>密码<input id="password" type="password" autocomplete="current-password" maxlength="120" required></label><div class="buttons"><button class="primary">登录</button><button type="button" id="register">注册并进入</button></div><p id="authMsg" role="status"></p></form></dialog>
+<dialog id="newTask"><form id="taskForm"><div class="section-title"><h2>提交任务</h2><button type="button" data-close>关闭</button></div><label>任务要求<textarea id="brief" rows="5" maxlength="4500" required placeholder="例如：为双人阅读室设计布局，保留一米宽的通道，并说明如何验收。"></textarea></label><p class="meta">本次要求会交给 MiMo 整理、交付和检查。请只填写完成任务所需的信息。</p><div class="buttons"><button class="primary" id="submit">提交并执行</button></div><p id="submitMsg" role="status"></p></form></dialog>
+<script src="./journal/spark-md5.min.js"></script><script src="./journal/records.js?v=j2"></script></body></html>

@@ -1,0 +1,11 @@
+const image = String(context.getArg('question') || '').trim();
+if (image.length > 1500 || !/^https:\/\/fz-zion-static\.functorz\.com\/[\w-]+\/[\w-]+\/project\/2000000000612901\/images\/[\w%=+.-]+\.(png|jpe?g|webp)(\?[\w%&=+.,:-]+)?$/i.test(image)) throw new Error('请选择本项目房间灵感室生成的图片。');
+const instructions = '你是建筑空间建模师。观察给出的室内效果图，估计可行走的矩形房间及可见家具的空间布局，保留可见的颜色、数量、大小和相对位置。只返回一个 JSON 对象。结构 {"w":6,"d":5,"h":3,"wall":"#eeeecc","floor":"#bc9779","items":[{"k":"sofa","x":0.25,"z":0.4,"w":2,"d":0.9,"h":0.8,"r":90,"c":"#778877"}]}。房间宽深高和家具宽深高单位为米，x,z是家具中心的归一化坐标从0到1，左后角是0,0，向右为x，向镜头为z，r是绕竖轴旋转角度；默认沙发背面朝后墙。k选sofa,chair,table,desk,bed,shelf,cabinet,plant,rug,lamp,window,door,picture。窗、门、挂画放到最近墙面。仅建4到12件符合参考图的物体，尽量保留通道，颜色为十六进制。没有看到的部分可保守推断。不要输出代码围栏或解释。';
+const choices = context.callActionFlow('51c7f96a-a8c1-4f6b-bd5d-d7f9a7a55e6b', null, {messages:[{role:'system',content:instructions},{role:'user',content:[{type:'text',text:'根据这张图生成一个可漫游的房间。'},{type:'image_url',image_url:{url:image}}]}]});
+const answer=choices && choices[0] && choices[0].message && choices[0].message.content;
+if(typeof answer !== 'string') throw new Error('MiMo 未返回空间布局。');
+const start=answer.indexOf('{'),end=answer.lastIndexOf('}');
+if(start<0||end<=start) throw new Error('MiMo 返回的布局格式有误。');
+const scene=JSON.parse(answer.slice(start,end+1));
+if(!Array.isArray(scene.items)||scene.items.length<1||scene.items.length>36) throw new Error('没有得到可用的家具布局。');
+context.setResult(JSON.stringify(scene));

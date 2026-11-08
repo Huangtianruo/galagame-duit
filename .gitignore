@@ -1,0 +1,9 @@
+/.zion-mcp/
+/.env
+/.env.*
+/node_modules/
+*.log
+*.part
+*.bundle
+.DS_Store
+Thumbs.db

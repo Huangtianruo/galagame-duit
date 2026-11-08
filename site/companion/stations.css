@@ -1,0 +1,9 @@
+.av-card{border-top:3px solid #547061}.av-card .cardhead{margin-bottom:12px}
+#avAir{color:#476353;font-size:11px;letter-spacing:.1em}.av-switch{display:flex;padding:3px;background:#e9ede3;border-radius:9px;gap:4px}
+.av-switch button{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:6px;padding:8px 2px;background:transparent;font-size:13px}
+.av-switch button[aria-pressed=true]{color:#fff;background:#345744}.av-switch svg{width:22px;height:20px;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;fill:none}
+.av-source,.av-volume,.av-controls{display:flex;align-items:center;gap:8px}.av-source{justify-content:space-between;margin:14px 0 9px}.av-source strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+.av-card button{white-space:nowrap}.av-card input[type=range]{width:100%;min-width:25px;flex:1;padding:0;accent-color:#52725a}
+.av-controls small{font:12px/1.4 monospace}.av-volume{margin:11px 0}.av-volume label,.av-share{font-size:12px;margin:0;color:#4e6152}.av-share{display:flex;align-items:center;gap:7px;margin-top:12px}.av-share input{width:auto;accent-color:#365d46}
+.av-theater{position:absolute;inset:0;background:#141c19;z-index:4;display:flex;align-items:center;justify-content:center}.av-theater video{width:100%;height:100%;object-fit:contain}.av-theater button{position:absolute;top:12px;right:12px;background:#20342bea;color:white;border-color:#a6b7a8}
+@media(max-width:760px){.side .av-card{grid-column:1/-1;grid-row:auto}.side .av-card:first-child{grid-row:auto}}

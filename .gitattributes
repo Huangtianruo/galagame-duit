@@ -1,0 +1,8 @@
+# Keep the exact bytes checked against Zion's deployment manifest, even on Windows.
+/site/** -text
+/assets/*.png -text
+/assets/*.svg -text
+/src/** -text
+*.md text eol=lf
+*.mjs text eol=lf
+*.json text eol=lf
