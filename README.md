@@ -1,8 +1,16 @@
 # Duit 小家 · galagame
 
+[正式首页](https://9p307r8l8grk7.villa.functorz-app.com/) · [提交文字设计任务](https://9p307r8l8grk7.villa.functorz-app.com/ops-records) · [体验三维空间造型室](https://9p307r8l8grk7.cave.functorz-app.com/workbench/index.html)
+
+评审可以使用自己的 Duit 账号，在「项目运行记录」页提交一项房间设计需求、查看 Agent 的处理记录和文字方案，并由本人确认交付。已有的「橡木与鼠尾草客厅」支持访客进入三维工作台、移动人物和导出 GLB 模型。首页的房间效果图生成需要项目有可用的 Zion AI 积分。2026 年 11 月 8 日核验时，文字设计任务和三维漫游、模型导出均已完成端到端验证；生图服务当时返回项目积分不足。
+
+## 开源范围
+
+团队为本项目编写并持有权利的软件代码按 [MIT 许可](LICENSE) 开放。Duit 品牌名、标志、首页画板、示意图片及其他视觉素材不在该授权范围内。库、运行时、模型权重与依赖文件沿用各自权利人的许可与声明。可在[第三方组件说明](THIRD_PARTY_NOTICES.md)中查阅上游和随附许可。Zion 编辑器与平台服务由平台提供。
+
 Duit 是一个在 Zion 上制作的桌面 Web 应用。访客可从首页进入「房间灵感室」，填写房间名和设计要求，提交生成任务，在同一页面查看完成的房间图片。项目还包含空间造型、个人中心、陪伴功能与运行记录相关页面。
 
-[打开 Zion 桌面首页](https://mirror.functorz.com/preview/X57jbwZOjLw/8bD5JlVexgP?pageId=yrt7kexh8&breakpoint=desktop) · [打开房间灵感室](https://mirror.functorz.com/preview/X57jbwZOjLw/8bD5JlVexgP?pageId=zu2t0agh8&breakpoint=desktop) · [打开 Zion 托管的静态工作台](https://9p307r8l8grk7.cave.functorz-app.com/index.html)
+归档中保留了原生首页与房间灵感室的编辑配置，以及三维工作台在归档时使用的静态文件。评审体验请使用上方链接。
 
 ## 评审复核
 
@@ -15,7 +23,7 @@ node tools/verify.mjs
 node tools/serve.mjs
 ```
 
-在浏览器打开 `http://127.0.0.1:4173/` 可查看静态工作台，打开 `/inspiration.html` 可查看静态站的房间灵感页面。Zion 原生首页使用顶部的桌面预览链接。实际生图、账号和服务端行为依赖原项目运行态及其权限。本地命令只启动文件服务。完整性检查可离线执行，不会调用模型。
+在浏览器打开 `http://127.0.0.1:4173/` 可查看静态工作台，打开 `/inspiration.html` 可查看静态站的房间灵感页面。Zion 原生首页使用顶部的正式网址。实际生图、账号和服务端行为依赖原项目运行态及其权限。本地命令只启动文件服务。完整性检查可离线执行，不会调用模型。
 
 ## 如何阅读仓库
 
