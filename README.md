@@ -1,10 +1,10 @@
 # Duit 小家 · galagame
 
-[正式首页](https://9p307r8l8grk7.villa.functorz-app.com/) · [提交文字设计任务](https://9p307r8l8grk7.villa.functorz-app.com/ops-records) · [体验三维空间造型室](https://9p307r8l8grk7.cave.functorz-app.com/workbench/index.html)
+[正式首页](https://9p307r8l8grk7.villa.functorz-app.com/) · [直接进入正式建房页](https://9p307r8l8grk7.villa.functorz-app.com/zu2t0agh8) · [提交文字设计任务](https://9p307r8l8grk7.villa.functorz-app.com/ops-records) · [体验三维空间造型室](https://9p307r8l8grk7.cave.functorz-app.com/workbench/index.html)
 
 评审可以使用自己的 Duit 账号，在「项目运行记录」页提交一项房间设计需求、查看 Agent 的处理记录和文字方案，并由本人确认交付。已有的「橡木与鼠尾草客厅」支持访客进入三维工作台、移动人物和导出 GLB 模型。
 
-房间设计页提供两种图像。「生成房间图」请求云端模型制作效果图，需要项目具备可用的 Zion AI 积分。项目配额不足或服务失败时，页面可以按这次要求绘制空间示意图，并明确标记图像类型。「生成空间示意图」也可以直接使用，在浏览器中按输入的家具、材质和光线等要求绘制，可下载 PNG，无需云端积分。两种呈现的实现可在[房间页面源码](src/components/i9aaghsoe/document.html)中核验。
+想看接近照片的室内光影和材质，请填写房间名字与要求，点击「生成云端效果图（推荐）」。云端模型使用项目的 Zion AI 积分。需要快速查看布局时，可点「生成空间示意图」，在浏览器里绘制并下载 PNG。云端任务失败时，页面会提供示意图并标明类型。[查看房间页面源码](src/components/i9aaghsoe/document.html)
 
 ## 从自己的二维房间进入三维
 
